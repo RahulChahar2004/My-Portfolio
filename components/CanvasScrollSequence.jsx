@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 const TOTAL_FRAMES = 300;
 const FRAME_PATH = (index) => `/frames/ezgif-frame-${String(index).padStart(3, '0')}.jpg`;
@@ -8,9 +8,11 @@ const FRAME_PATH = (index) => `/frames/ezgif-frame-${String(index).padStart(3, '
 export default function CanvasScrollSequence({ onScrollProgress }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
+  const ctxRef = useRef(null);
   const imagesRef = useRef([]);
   const [imagesLoaded, setImagesLoaded] = useState(0);
   const currentFrameRef = useRef(1);
+  const dimensionsRef = useRef({ width: 0, height: 0, dpr: 1 });
 
   // Preload 300 Frames into ref to avoid unnecessary re-renders
   useEffect(() => {
@@ -34,31 +36,43 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     imagesRef.current = loadedImages;
   }, []);
 
-  // Handle Canvas Drawing with High DPR Scaling & Object-Fit Cover Cropping
-  const drawFrame = (frameIndex) => {
+  // Update canvas dimensions on resize with clamped DPR for 60fps performance
+  const updateDimensions = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
 
-    const img = imagesRef.current[frameIndex - 1];
-    if (!img || !img.complete || img.naturalWidth === 0) {
-      // Fallback to closest loaded frame if current isn't ready
-      const fallbackImg = imagesRef.current.find(i => i && i.complete && i.naturalWidth > 0);
-      if (!fallbackImg) return;
-    }
-
-    const targetImg = (img && img.complete && img.naturalWidth > 0) ? img : imagesRef.current[0];
-    if (!targetImg || !targetImg.complete) return;
-
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     const width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
     const height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
 
-    if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+    dimensionsRef.current = { width, height, dpr };
+
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+
+    if (!ctxRef.current) {
+      ctxRef.current = canvas.getContext('2d', { alpha: false, desynchronized: true });
     }
+  }, []);
+
+  // Ultra-Fast GPU Canvas Drawing
+  const drawFrame = useCallback((frameIndex) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    let ctx = ctxRef.current;
+    if (!ctx) {
+      ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+      ctxRef.current = ctx;
+    }
+    if (!ctx) return;
+
+    const { width, height, dpr } = dimensionsRef.current;
+    if (width === 0 || height === 0) return;
+
+    const img = imagesRef.current[frameIndex - 1];
+    const targetImg = (img && img.complete && img.naturalWidth > 0) ? img : imagesRef.current[0];
+    if (!targetImg || !targetImg.complete) return;
 
     ctx.save();
     ctx.scale(dpr, dpr);
@@ -77,13 +91,16 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     const dx = (width - drawW) / 2;
     const dy = (height - drawH) / 2;
 
-    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = '#050505';
+    ctx.fillRect(0, 0, width, height);
     ctx.drawImage(targetImg, sx, sy, sw, sh, dx, dy, drawW, drawH);
     ctx.restore();
-  };
+  }, []);
 
-  // Scroll Progress Listener Mapped to 400vh Sticky Scroll Container
+  // Scroll Progress Listener Mapped to 800vh Sticky Scroll Container
   useEffect(() => {
+    updateDimensions();
+
     let ticking = false;
 
     const handleScroll = () => {
@@ -118,30 +135,35 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
       }
     };
 
+    const handleResize = () => {
+      updateDimensions();
+      drawFrame(currentFrameRef.current);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
+    window.addEventListener('resize', handleResize, { passive: true });
     handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
-  }, [onScrollProgress]);
+  }, [onScrollProgress, updateDimensions, drawFrame]);
 
   // Initial draw once first images load
   useEffect(() => {
     if (imagesLoaded > 0) {
       drawFrame(currentFrameRef.current);
     }
-  }, [imagesLoaded]);
+  }, [imagesLoaded, drawFrame]);
 
   return (
-    <div ref={containerRef} className="relative h-[800vh] w-full bg-[#050505]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#050505]">
+    <div ref={containerRef} className="relative h-[800vh] w-full bg-[#050505] will-change-scroll">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#050505] will-change-transform transform-gpu">
         {/* HTML5 Pinned Canvas */}
         <canvas
           ref={canvasRef}
-          className="h-full w-full object-cover opacity-100 transition-opacity duration-500"
+          className="h-full w-full object-cover opacity-100 transition-opacity duration-300 transform-gpu"
         />
 
         {/* Soft Ambient Overlay to Ensure Canvas/Video Clarity */}
@@ -163,4 +185,5 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     </div>
   );
 }
+
 

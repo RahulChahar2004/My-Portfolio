@@ -58,7 +58,7 @@ export default function ScrollTextOverlays({ scrollProgress }) {
           </span>
           <div className="h-1.5 w-24 md:w-36 rounded-full bg-white/10 overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full transition-all duration-150"
+              className="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full"
               style={{ width: `${Math.round(scrollProgress * 100)}%` }}
             />
           </div>
