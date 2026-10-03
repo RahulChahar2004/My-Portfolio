@@ -3,6 +3,11 @@
 import { useState } from 'react';
 import CanvasScrollSequence from '@/components/CanvasScrollSequence';
 import ScrollTextOverlays from '@/components/ScrollTextOverlays';
+import HeroSection from '@/components/HeroSection';
+import SkillsSection from '@/components/SkillsSection';
+import ProjectsSection from '@/components/ProjectsSection';
+import EducationSection from '@/components/EducationSection';
+import ExperienceSection from '@/components/ExperienceSection';
 import FooterSection from '@/components/FooterSection';
 import { Terminal } from 'lucide-react';
 
@@ -172,11 +177,39 @@ export default function PortfolioLandingPage() {
         </button>
       </div>
 
-      {/* 800vh Pinned Canvas Sticky Scroll Section */}
-      <section className="relative w-full">
+      {/* DESKTOP / MAC / LAPTOP VIEW (>= 768px): 800vh Pinned Canvas Sticky Scroll Sequence */}
+      <section className="hidden md:block relative w-full">
         <CanvasScrollSequence onScrollProgress={setScrollProgress} />
         <ScrollTextOverlays scrollProgress={scrollProgress} />
       </section>
+
+      {/* MOBILE VIEW (< 768px): Video Canvas Frames Removed After Hero Section */}
+      <div className="block md:hidden relative w-full pt-28 pb-16 px-4">
+        {/* Mobile Hero Section */}
+        <section id="hero-mobile" className="min-h-[85vh] flex items-center justify-center py-8">
+          <HeroSection scrollProgress={0} forceVisible />
+        </section>
+
+        {/* Mobile Skills Section */}
+        <section id="skills-mobile" className="py-10 border-t border-white/10">
+          <SkillsSection scrollProgress={0.28} forceVisible />
+        </section>
+
+        {/* Mobile Projects Section */}
+        <section id="projects-mobile" className="py-10 border-t border-white/10">
+          <ProjectsSection scrollProgress={0.52} forceVisible />
+        </section>
+
+        {/* Mobile Education Section */}
+        <section id="education-mobile" className="py-10 border-t border-white/10">
+          <EducationSection scrollProgress={0.75} forceVisible />
+        </section>
+
+        {/* Mobile Experience Section */}
+        <section id="experience-mobile" className="py-10 border-t border-white/10">
+          <ExperienceSection scrollProgress={0.89} forceVisible />
+        </section>
+      </div>
 
       {/* Unpinned Footer Section */}
       <FooterSection />

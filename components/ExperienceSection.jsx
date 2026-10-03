@@ -3,29 +3,33 @@
 import { useReducedMotion } from 'framer-motion';
 import { Briefcase, Trophy, CheckCircle2, Users, Code, Calendar } from 'lucide-react';
 
-export default function ExperienceSection({ scrollProgress }) {
+export default function ExperienceSection({ scrollProgress, forceVisible = false }) {
   const shouldReduceMotion = useReducedMotion();
 
   // Active range for Experience & Achievements: 0.84 to 0.94
   const rangeStart = 0.84;
   const rangeEnd = 0.94;
 
-  let sectionProgress = 0;
-  if (scrollProgress > rangeStart && scrollProgress < rangeEnd) {
-    sectionProgress = (scrollProgress - rangeStart) / (rangeEnd - rangeStart);
-  } else if (scrollProgress >= rangeEnd) {
-    sectionProgress = 1;
+  let sectionProgress = forceVisible ? 1 : 0;
+  if (!forceVisible) {
+    if (scrollProgress > rangeStart && scrollProgress < rangeEnd) {
+      sectionProgress = (scrollProgress - rangeStart) / (rangeEnd - rangeStart);
+    } else if (scrollProgress >= rangeEnd) {
+      sectionProgress = 1;
+    }
   }
 
   // Gentle opacity windowing
   let opacity = 1;
-  if (scrollProgress < 0.82) {
-    opacity = Math.max(0, (scrollProgress - 0.79) / 0.03);
-  } else if (scrollProgress > 0.93) {
-    opacity = Math.max(0, 1 - (scrollProgress - 0.93) / 0.02);
+  if (!forceVisible) {
+    if (scrollProgress < 0.82) {
+      opacity = Math.max(0, (scrollProgress - 0.79) / 0.03);
+    } else if (scrollProgress > 0.93) {
+      opacity = Math.max(0, 1 - (scrollProgress - 0.93) / 0.02);
+    }
   }
 
-  if (opacity <= 0.01) return null;
+  if (!forceVisible && opacity <= 0.01) return null;
 
   return (
     <div

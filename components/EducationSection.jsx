@@ -46,29 +46,33 @@ const EDUCATION_RESUME = [
   },
 ];
 
-export default function EducationSection({ scrollProgress }) {
+export default function EducationSection({ scrollProgress, forceVisible = false }) {
   const shouldReduceMotion = useReducedMotion();
 
   // Active spacious range for Education: 0.65 to 0.85
   const rangeStart = 0.65;
   const rangeEnd = 0.85;
 
-  let sectionProgress = 0;
-  if (scrollProgress > rangeStart && scrollProgress < rangeEnd) {
-    sectionProgress = (scrollProgress - rangeStart) / (rangeEnd - rangeStart);
-  } else if (scrollProgress >= rangeEnd) {
-    sectionProgress = 1;
+  let sectionProgress = forceVisible ? 1 : 0;
+  if (!forceVisible) {
+    if (scrollProgress > rangeStart && scrollProgress < rangeEnd) {
+      sectionProgress = (scrollProgress - rangeStart) / (rangeEnd - rangeStart);
+    } else if (scrollProgress >= rangeEnd) {
+      sectionProgress = 1;
+    }
   }
 
   // Gentle opacity windowing
   let opacity = 1;
-  if (scrollProgress < 0.62) {
-    opacity = Math.max(0, (scrollProgress - 0.58) / 0.04);
-  } else if (scrollProgress > 0.83) {
-    opacity = Math.max(0, 1 - (scrollProgress - 0.83) / 0.03);
+  if (!forceVisible) {
+    if (scrollProgress < 0.62) {
+      opacity = Math.max(0, (scrollProgress - 0.58) / 0.04);
+    } else if (scrollProgress > 0.83) {
+      opacity = Math.max(0, 1 - (scrollProgress - 0.83) / 0.03);
+    }
   }
 
-  if (opacity <= 0.01) return null;
+  if (!forceVisible && opacity <= 0.01) return null;
 
   return (
     <div

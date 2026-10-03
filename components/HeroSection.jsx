@@ -4,14 +4,14 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Terminal, Play, Code2, Cpu, Server, Sparkles } from 'lucide-react';
 
-export default function HeroSection({ scrollProgress }) {
+export default function HeroSection({ scrollProgress, forceVisible = false }) {
   const shouldReduceMotion = useReducedMotion();
 
   // Opacity & transform mapped smoothly to 0.0 - 0.18 scroll range
-  const opacity = Math.max(0, 1 - scrollProgress * 6);
-  const translateY = shouldReduceMotion ? 0 : scrollProgress * -90;
+  const opacity = forceVisible ? 1 : Math.max(0, 1 - scrollProgress * 6);
+  const translateY = (forceVisible || shouldReduceMotion) ? 0 : scrollProgress * -90;
 
-  if (opacity <= 0.01) return null;
+  if (!forceVisible && opacity <= 0.01) return null;
 
   return (
     <div

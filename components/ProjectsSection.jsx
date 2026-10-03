@@ -62,29 +62,33 @@ const PROJECTS = [
   },
 ];
 
-export default function ProjectsSection({ scrollProgress }) {
+export default function ProjectsSection({ scrollProgress, forceVisible = false }) {
   const shouldReduceMotion = useReducedMotion();
 
   // Active scroll range for Projects: 0.38 to 0.65
   const rangeStart = 0.38;
   const rangeEnd = 0.65;
 
-  let sectionProgress = 0;
-  if (scrollProgress > rangeStart && scrollProgress < rangeEnd) {
-    sectionProgress = (scrollProgress - rangeStart) / (rangeEnd - rangeStart);
-  } else if (scrollProgress >= rangeEnd) {
-    sectionProgress = 1;
+  let sectionProgress = forceVisible ? 1 : 0;
+  if (!forceVisible) {
+    if (scrollProgress > rangeStart && scrollProgress < rangeEnd) {
+      sectionProgress = (scrollProgress - rangeStart) / (rangeEnd - rangeStart);
+    } else if (scrollProgress >= rangeEnd) {
+      sectionProgress = 1;
+    }
   }
 
   // Opacity windowing
   let opacity = 1;
-  if (scrollProgress < 0.35) {
-    opacity = Math.max(0, (scrollProgress - 0.30) / 0.05);
-  } else if (scrollProgress > 0.63) {
-    opacity = Math.max(0, 1 - (scrollProgress - 0.63) / 0.04);
+  if (!forceVisible) {
+    if (scrollProgress < 0.35) {
+      opacity = Math.max(0, (scrollProgress - 0.30) / 0.05);
+    } else if (scrollProgress > 0.63) {
+      opacity = Math.max(0, 1 - (scrollProgress - 0.63) / 0.04);
+    }
   }
 
-  if (opacity <= 0.01) return null;
+  if (!forceVisible && opacity <= 0.01) return null;
 
   return (
     <div
