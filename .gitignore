@@ -1,0 +1,34 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# build outputs
+/node_modules
+/.next/
+/dist/
+/out/
+/build
+
+# archives & recordings
+*.zip
+*.tar.gz
+*.rar
+*.mp4
+
+# testing & logs
+/coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

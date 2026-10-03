@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #050505;
+  --foreground: #ffffff;
+}
+
+body {
+  background-color: #050505;
+  color: #ffffff;
+  font-family: 'Outfit', 'Space Grotesk', system-ui, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+  letter-spacing: -0.01em;
+}
+
+/* Dark Luxury Editorial Typography */
+.font-display {
+  font-family: 'Syne', 'Outfit', sans-serif;
+}
+.font-editorial {
+  font-family: 'Cinzel', 'Syne', serif;
+}
+.font-mono-luxury {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar for Dark Aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* 3D Antigravity Perspective Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

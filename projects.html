@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Cinematic Assembly Vortex & 3D Glass Showcase | Rahul Chahar</title>
+  <meta name="description" content="Cinematic assembly vortex: dynamic camera arcs 45 degrees around floating 3D project cards as they rotate into a pristine grid layout." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="glass-3d-body">
+
+  <!-- Minimal Dark Studio Background with Volumetric Lighting -->
+  <div class="studio-volumetric-bg">
+    <div class="volumetric-beam top-beam"></div>
+    <div class="volumetric-cone cone-left"></div>
+    <div class="volumetric-cone cone-right"></div>
+    <div class="studio-noise"></div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="main-header glass-header" id="navbar">
+    <div class="header-left">
+      <a href="/index.html#hero" class="nav-link"><span>01.</span> HOME</a>
+      <a href="/index.html#story" class="nav-link"><span>02.</span> ABOUT</a>
+      <a href="/index.html#experience" class="nav-link"><span>03.</span> EXPERIENCE</a>
+      <a href="/projects.html" class="nav-link active"><span>04.</span> PROJECTS</a>
+      <a href="/index.html#skills" class="nav-link"><span>05.</span> SKILLS</a>
+      <a href="/index.html#contact" class="nav-link"><span>06.</span> CONTACT</a>
+    </div>
+
+    <div class="header-right">
+      <a href="mailto:rahul.s.chahr2004@gmail.com" class="btn-header-cta">GET IN TOUCH</a>
+      
+      <a href="https://github.com/RahulChahar2004" target="_blank" rel="noopener" class="icon-link" title="GitHub Profile">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+      </a>
+
+      <a href="https://linkedin.com/in/rahul-chahar-b95a34321" target="_blank" rel="noopener" class="icon-link" title="LinkedIn Profile">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+        </svg>
+      </a>
+
+      <div class="header-brand">
+        <a href="/index.html" class="brand-title">RAHUL CHAHAR</a>
+        <span class="brand-sub">CINEMATIC ASSEMBLY VORTEX</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN STAGE -->
+  <main class="glass-stage-container">
+    
+    <!-- Hero Title & Mode Control Bar -->
+    <div class="stage-header">
+      <div class="glass-badge">
+        <span class="badge-pulse"></span>
+        <span>PRISTINE 60FPS KINETIC MOTION</span>
+      </div>
+      <h1 class="stage-title">CINEMATIC ASSEMBLY VORTEX</h1>
+      <p class="stage-subtitle">Dynamic camera arcs 45° around floating 3D project cards as they realign into a perfect grid layout.</p>
+
+      <!-- Kinetic Controls -->
+      <div class="vortex-control-bar">
+        <button id="btn-trigger-vortex" class="vortex-btn active">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          <span>RE-ASSEMBLE VORTEX (45° ARC)</span>
+        </button>
+
+        <button id="btn-toggle-float" class="vortex-btn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+          <span>3D FLOAT MODE</span>
+        </button>
+
+        <button id="btn-toggle-grid" class="vortex-btn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          <span>PRISTINE GRID MODE</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3D VORTEX & CAMERA ARC STAGE -->
+    <div class="vortex-viewport-container">
+      <div class="vortex-camera-wrapper" id="vortex-camera-wrapper">
+        <div class="vortex-stage" id="vortex-stage">
+
+          <!-- Card 1: ArthDrishti -->
+          <div class="vortex-card tilt-card" data-index="0">
+            <div class="v-card-inner">
+              <div class="v-glare"></div>
+              <div class="v-card-top">
+                <span class="v-tag">EXPLAINABLE AI</span>
+                <span class="v-id">01 / 06</span>
+              </div>
+              <div class="v-card-img-wrap">
+                <img src="/projects/arthdrishti.png" alt="ArthDrishti" />
+                <div class="v-reflection"></div>
+              </div>
+              <div class="v-card-content">
+                <h3>ARTHDRISHTI</h3>
+                <p class="v-sub">Financial Intelligence Platform</p>
+                <p class="v-desc">40+ responsive pages for Customer, Officer, and Admin portals with role-based auth & AI credit scoring.</p>
+                <div class="v-tags">
+                  <span>Next.js</span><span>MongoDB</span><span>AI/ML</span>
+                </div>
+                <a href="https://github.com/RahulChahar2004/ArthDrishtii" target="_blank" rel="noopener" class="v-link">EXPLORE REPO →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: TruthGuard -->
+          <div class="vortex-card tilt-card" data-index="1">
+            <div class="v-card-inner">
+              <div class="v-glare"></div>
+              <div class="v-card-top">
+                <span class="v-tag">AI & DEEPFAKE</span>
+                <span class="v-id">02 / 06</span>
+              </div>
+              <div class="v-card-img-wrap">
+                <img src="/projects/truthguard.png" alt="TruthGuard" />
+                <div class="v-reflection"></div>
+              </div>
+              <div class="v-card-content">
+                <h3>TRUTHGUARD</h3>
+                <p class="v-sub">AI Fact-Checking Engine</p>
+                <p class="v-desc">RAG-based fact checking platform with Google OAuth, JWT security, and deepfake verification APIs.</p>
+                <div class="v-tags">
+                  <span>Next.js</span><span>Python</span><span>RAG</span>
+                </div>
+                <a href="https://github.com/RahulChahar2004/TruthGuard" target="_blank" rel="noopener" class="v-link">EXPLORE REPO →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Viraasat -->
+          <div class="vortex-card tilt-card" data-index="2">
+            <div class="v-card-inner">
+              <div class="v-glare"></div>
+              <div class="v-card-top">
+                <span class="v-tag">E-COMMERCE</span>
+                <span class="v-id">03 / 06</span>
+              </div>
+              <div class="v-card-img-wrap">
+                <img src="/projects/viraasat.png" alt="Viraasat" />
+                <div class="v-reflection"></div>
+              </div>
+              <div class="v-card-content">
+                <h3>VIRAASAT</h3>
+                <p class="v-sub">Fashion E-Commerce Storefront</p>
+                <p class="v-desc">Full-stack live fashion e-commerce with wishlist, cart, Clerk auth, and Razorpay payment gateway.</p>
+                <div class="v-tags">
+                  <span>Next.js 16</span><span>Tailwind</span><span>Razorpay</span>
+                </div>
+                <a href="https://viraasatclothing.store" target="_blank" rel="noopener" class="v-link">LIVE STORE →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Banking System -->
+          <div class="vortex-card tilt-card" data-index="3">
+            <div class="v-card-inner">
+              <div class="v-glare"></div>
+              <div class="v-card-top">
+                <span class="v-tag">FINTECH SYSTEM</span>
+                <span class="v-id">04 / 06</span>
+              </div>
+              <div class="v-card-img-wrap">
+                <img src="/projects/banking.png" alt="Banking System" />
+                <div class="v-reflection"></div>
+              </div>
+              <div class="v-card-content">
+                <h3>BANKING SYSTEM</h3>
+                <p class="v-sub">Enterprise Banking Ledger</p>
+                <p class="v-desc">Full-stack banking application with PostgreSQL, Neon database, Prisma ORM, and encrypted fund transfers.</p>
+                <div class="v-tags">
+                  <span>PostgreSQL</span><span>Prisma</span><span>Node.js</span>
+                </div>
+                <a href="https://github.com/RahulChahar2004" target="_blank" rel="noopener" class="v-link">EXPLORE REPO →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Netflix Clone -->
+          <div class="vortex-card tilt-card" data-index="4">
+            <div class="v-card-inner">
+              <div class="v-glare"></div>
+              <div class="v-card-top">
+                <span class="v-tag">STREAMING UI</span>
+                <span class="v-id">05 / 06</span>
+              </div>
+              <div class="v-card-img-wrap">
+                <img src="/projects/netflix.png" alt="Netflix Clone" />
+                <div class="v-reflection"></div>
+              </div>
+              <div class="v-card-content">
+                <h3>NETFLIX CLONE</h3>
+                <p class="v-sub">Cinema Streaming Interface</p>
+                <p class="v-desc">High-performance video streaming web interface with real-time TMDB API integration and carousels.</p>
+                <div class="v-tags">
+                  <span>React</span><span>TMDB API</span><span>Tailwind</span>
+                </div>
+                <a href="https://github.com/RahulChahar2004" target="_blank" rel="noopener" class="v-link">EXPLORE REPO →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: VibeBite -->
+          <div class="vortex-card tilt-card" data-index="5">
+            <div class="v-card-inner">
+              <div class="v-glare"></div>
+              <div class="v-card-top">
+                <span class="v-tag">FOODOSCOPE & AI</span>
+                <span class="v-id">06 / 06</span>
+              </div>
+              <div class="v-card-img-wrap">
+                <img src="/vibebite.jpg" alt="VibeBite" />
+                <div class="v-reflection"></div>
+              </div>
+              <div class="v-card-content">
+                <h3>VIBEBITE</h3>
+                <p class="v-sub">Music Taste & Food Recommender</p>
+                <p class="v-desc">Foodoscope platform matching user playlist vibes with comfort food recommendations.</p>
+                <div class="v-tags">
+                  <span>Next.js</span><span>Audio AI</span><span>MongoDB</span>
+                </div>
+                <a href="https://github.com/RahulChahar2004/VibeBite-Foodoscope" target="_blank" rel="noopener" class="v-link">EXPLORE REPO →</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Translucent Glass UI Card -->
+    <div class="midair-stage" id="midair-stage" style="margin-top: 60px;">
+      <div class="glass-card-3d primary-card floating-card" id="primary-glass-card">
+        <div class="glass-edge-highlight"></div>
+        <div class="glass-glare-overlay"></div>
+
+        <div class="glass-card-header">
+          <div class="glass-mac-dots">
+            <span class="g-dot red"></span>
+            <span class="g-dot yellow"></span>
+            <span class="g-dot green"></span>
+          </div>
+          <div class="glass-title-pill">SYSTEM DASHBOARD v2.1 // FEATURED HIGHLIGHT</div>
+          <div class="glass-status-tag">
+            <span class="live-dot"></span> ZERO MOTION BLUR
+          </div>
+        </div>
+
+        <div class="glass-hero-preview">
+          <img src="/3d-glass-dashboard.png" alt="3D Glass Dashboard Render" class="glass-render-img" />
+          <div class="glass-render-caption">
+            <h3>ARTHDRISHTI — Explainable AI Platform</h3>
+            <p>Next.js · Node.js · Express · MongoDB · Clerk Auth · AI/ML Workflows</p>
+          </div>
+          <a href="https://github.com/RahulChahar2004/ArthDrishtii" target="_blank" rel="noopener" class="glass-btn-cta">
+            EXPLORE REPO →
+          </a>
+        </div>
+
+        <div class="midair-shadow"></div>
+      </div>
+    </div>
+
+    <!-- Studio Footer -->
+    <footer class="glass-footer">
+      <div class="footer-content">
+        <p>© 2026 RAHUL CHAHAR. CINEMATIC ASSEMBLY VORTEX & 3D GLASS SHOWCASE.</p>
+        <a href="/index.html" class="back-link">← RETURN TO MAIN PORTFOLIO</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script type="module" src="/src/projects-main.js"></script>
+</body>
+</html>
