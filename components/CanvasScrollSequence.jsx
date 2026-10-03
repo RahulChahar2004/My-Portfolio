@@ -14,13 +14,14 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
   const currentFrameRef = useRef(1);
   const dimensionsRef = useRef({ width: 0, height: 0, dpr: 1 });
 
-  // Preload 300 Frames into ref to avoid unnecessary re-renders
+  // Preload 300 Frames with async decoding for zero main-thread jank
   useEffect(() => {
     let count = 0;
     const loadedImages = new Array(TOTAL_FRAMES);
 
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
+      img.decoding = 'async';
       img.src = FRAME_PATH(i);
       img.onload = () => {
         count++;
@@ -36,23 +37,57 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     imagesRef.current = loadedImages;
   }, []);
 
+  // Find closest valid loaded image frame
+  const getBestFrame = useCallback((frameIndex) => {
+    const images = imagesRef.current;
+    if (!images || images.length === 0) return null;
+
+    let target = images[frameIndex - 1];
+    if (target && target.complete && target.naturalWidth > 0) {
+      return target;
+    }
+
+    // Search backwards for nearest ready frame
+    for (let i = frameIndex - 1; i >= 1; i--) {
+      const prevImg = images[i - 1];
+      if (prevImg && prevImg.complete && prevImg.naturalWidth > 0) {
+        return prevImg;
+      }
+    }
+
+    // Search forwards if no prior frame is ready
+    for (let i = frameIndex + 1; i <= TOTAL_FRAMES; i++) {
+      const nextImg = images[i - 1];
+      if (nextImg && nextImg.complete && nextImg.naturalWidth > 0) {
+        return nextImg;
+      }
+    }
+
+    return images[0];
+  }, []);
+
   // Update canvas dimensions on resize with clamped DPR for 60fps performance
   const updateDimensions = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return false;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.15);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     const width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
     const height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
 
-    dimensionsRef.current = { width, height, dpr };
+    const targetW = Math.floor(width * dpr);
+    const targetH = Math.floor(height * dpr);
 
-    canvas.width = Math.floor(width * dpr);
-    canvas.height = Math.floor(height * dpr);
-
-    if (!ctxRef.current) {
+    // Prevent unnecessary canvas buffer reset on iOS Safari address bar toggle
+    if (Math.abs(canvas.width - targetW) > 5 || Math.abs(canvas.height - targetH) > 5) {
+      dimensionsRef.current = { width, height, dpr };
+      canvas.width = targetW;
+      canvas.height = targetH;
       ctxRef.current = canvas.getContext('2d', { alpha: false, desynchronized: true });
+      return true;
     }
+
+    return false;
   }, []);
 
   // Ultra-Fast GPU Canvas Drawing
@@ -70,8 +105,7 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     const { width, height, dpr } = dimensionsRef.current;
     if (width === 0 || height === 0) return;
 
-    const img = imagesRef.current[frameIndex - 1];
-    const targetImg = (img && img.complete && img.naturalWidth > 0) ? img : imagesRef.current[0];
+    const targetImg = getBestFrame(frameIndex);
     if (!targetImg || !targetImg.complete) return;
 
     ctx.save();
@@ -96,7 +130,7 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     ctx.fillRect(0, 0, width, height);
     ctx.drawImage(targetImg, sx, sy, sw, sh, dx, dy, drawW, drawH);
     ctx.restore();
-  }, []);
+  }, [getBestFrame]);
 
   // Scroll Progress Listener Mapped to 800vh Sticky Scroll Container
   useEffect(() => {
@@ -125,10 +159,8 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
               Math.min(TOTAL_FRAMES, Math.floor(progress * (TOTAL_FRAMES - 1)) + 1)
             );
 
-            if (frameIndex !== currentFrameRef.current) {
-              currentFrameRef.current = frameIndex;
-              drawFrame(frameIndex);
-            }
+            currentFrameRef.current = frameIndex;
+            drawFrame(frameIndex);
           }
           ticking = false;
         });
