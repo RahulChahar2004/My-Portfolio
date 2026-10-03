@@ -26,10 +26,18 @@ export default function PortfolioLandingPage() {
 
   const scrollToPercentage = (percentage) => {
     const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    window.scrollTo({
-      top: totalHeight * percentage,
-      behavior: 'smooth',
-    });
+    const targetY = totalHeight * percentage;
+    if (typeof window !== 'undefined' && window.lenis) {
+      window.lenis.scrollTo(targetY, {
+        duration: 1.4,
+        easing: (t) => 1 - Math.pow(1 - t, 4),
+      });
+    } else if (typeof window !== 'undefined') {
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth',
+      });
+    }
   };
 
   // Header opacity fades out smoothly as user scrolls away from top hero section

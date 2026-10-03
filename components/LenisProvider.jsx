@@ -6,15 +6,18 @@ import Lenis from 'lenis';
 export default function LenisProvider({ children }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 0.9,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.1,
+      easing: (t) => 1 - Math.pow(1 - t, 4),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.1,
+      wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
+      lerp: 0.1,
       infinite: false,
     });
+
+    window.lenis = lenis;
 
     let animationFrameId;
 
@@ -27,10 +30,12 @@ export default function LenisProvider({ children }) {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      if (window.lenis === lenis) window.lenis = null;
       lenis.destroy();
     };
   }, []);
 
   return <>{children}</>;
 }
+
 

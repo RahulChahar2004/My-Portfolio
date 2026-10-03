@@ -41,7 +41,7 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.15);
     const width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
     const height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
 
@@ -75,6 +75,7 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     if (!targetImg || !targetImg.complete) return;
 
     ctx.save();
+    ctx.imageSmoothingEnabled = false;
     ctx.scale(dpr, dpr);
 
     // Subtle crop inset for crisp presentation
