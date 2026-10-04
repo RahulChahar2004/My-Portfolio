@@ -156,41 +156,54 @@ export default function ProjectsPage() {
 
   return (
     <main className="relative min-h-screen bg-[#050505] text-white selection:bg-cyan-500 selection:text-black overflow-x-hidden">
-      {/* Background Volumetric Lighting */}
-      <div className="pointer-events-none fixed inset-0 z-0 opacity-40">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.15)_0%,rgba(168,85,247,0.08)_50%,transparent_70%)] blur-3xl" />
-        <div className="absolute top-1/2 left-10 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(59,130,246,0.08)_0%,transparent_60%)] blur-2xl" />
+      {/* Volumetric Background Glow & Interactive Mouse Ambient Orbs */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        {/* Top Radial Glow */}
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.22)_0%,rgba(168,85,247,0.12)_45%,transparent_70%)] blur-3xl animate-pulse" />
+        
+        {/* Dynamic Mouse-Following Glow Orb */}
+        <div
+          style={{
+            transform: `translate(${mousePos.x * 120}px, ${mousePos.y * 120}px)`,
+            transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(6,182,212,0.15)_0%,rgba(59,130,246,0.08)_40%,transparent_70%)] blur-3xl"
+        />
+
+        {/* Floating Cyber Beams */}
+        <div className="absolute top-1/4 -left-40 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(168,85,247,0.12)_0%,transparent_60%)] blur-3xl" />
+        <div className="absolute bottom-10 -right-40 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(6,182,212,0.14)_0%,transparent_60%)] blur-3xl" />
       </div>
 
       {/* Pinned Bottom-Left Compact Mini RR Emblem Badge */}
       <div className="fixed bottom-6 left-6 z-50 opacity-100 translate-y-0 scale-100 pointer-events-auto">
         <button
           onClick={scrollToTop}
-          className="group relative flex h-9 w-9 items-center justify-center border border-white/20 bg-black/45 backdrop-blur-md shadow-[0_0_20px_rgba(0,0,0,0.8)] hover:border-white hover:bg-white hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:scale-110 transition-all duration-300 cursor-pointer"
+          className="group relative flex h-9 w-9 items-center justify-center border border-cyan-500/30 bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:border-cyan-400 hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] hover:scale-110 transition-all duration-300 cursor-pointer"
           title="ROHNYROCKSTAR // Return to Top ↑"
         >
           <span className="font-editorial text-xs font-black text-white group-hover:text-black transition-colors tracking-tight">RR</span>
           <span className="absolute -top-1 -right-1 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></span>
           </span>
         </button>
       </div>
 
       {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b border-white/15 bg-[#050505]/85 backdrop-blur-xl">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b border-cyan-500/20 bg-[#050505]/85 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
         <Link
           href="/"
-          className="group inline-flex items-center gap-2.5 font-mono-luxury text-xs font-extrabold tracking-[0.2em] text-white uppercase hover:text-neutral-300 transition-colors"
+          className="group inline-flex items-center gap-2.5 font-mono-luxury text-xs font-extrabold tracking-[0.2em] text-white uppercase hover:text-cyan-300 transition-colors"
         >
-          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1 text-white" />
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1 text-cyan-400" />
           <span>RETURN TO PORTFOLIO ENGINE</span>
         </Link>
 
-        <div className="flex items-center gap-3">
-          <div className="h-2 w-2 rounded-full bg-white animate-pulse" />
-          <span className="font-mono-luxury text-xs font-bold tracking-[0.2em] text-white/70 uppercase hidden sm:inline">
-            CINEMATIC ASSEMBLY VORTEX
+        <div className="flex items-center gap-3 border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 rounded-full backdrop-blur-md shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+          <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]" />
+          <span className="font-mono-luxury text-[11px] font-bold tracking-[0.2em] text-cyan-300 uppercase hidden sm:inline">
+            CINEMATIC 3D SHOWCASE
           </span>
         </div>
       </header>
@@ -204,9 +217,9 @@ export default function ProjectsPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-mono-luxury font-bold tracking-[0.2em] text-white/80 uppercase mb-4"
+            className="inline-flex items-center gap-2 border border-cyan-500/40 bg-cyan-500/10 px-4 py-1.5 text-xs font-mono-luxury font-bold tracking-[0.2em] text-cyan-300 uppercase mb-4 rounded-full backdrop-blur-md shadow-[0_0_20px_rgba(6,182,212,0.3)]"
           >
-            <Sparkles className="h-3.5 w-3.5 text-white" />
+            <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
             <span>RAHUL CHAHAR // FULL STACK ENGINEERING PORTFOLIO</span>
           </motion.div>
 
@@ -214,16 +227,16 @@ export default function ProjectsPage() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-editorial font-black tracking-tight uppercase text-white leading-none"
+            className="text-5xl md:text-7xl lg:text-8xl font-editorial font-black tracking-tight uppercase text-white leading-none drop-shadow-[0_0_35px_rgba(255,255,255,0.2)]"
           >
-            FEATURED PROJECTS
+            FEATURED <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-purple-400">PROJECTS</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-4 text-xs md:text-sm font-mono-luxury font-bold text-white/60 uppercase tracking-widest leading-relaxed max-w-2xl mx-auto"
+            className="mt-4 text-xs md:text-sm font-mono-luxury font-bold text-white/70 uppercase tracking-widest leading-relaxed max-w-2xl mx-auto"
           >
             Production-grade full stack applications, explainable AI platforms, live fashion e-commerce storefronts & system architectures built with Next.js, React, Node.js & Python.
           </motion.p>
@@ -237,22 +250,22 @@ export default function ProjectsPage() {
           >
             <button
               onClick={triggerAssemblyVortex}
-              className={`inline-flex items-center gap-2 border px-6 py-3 text-xs font-mono-luxury font-extrabold tracking-wider uppercase transition-all ${
+              className={`inline-flex items-center gap-2 border px-6 py-3 text-xs font-mono-luxury font-extrabold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                 mode === 'vortex'
-                  ? 'bg-white text-black border-white shadow-lg'
-                  : 'bg-black/60 text-white border-white/20 hover:border-white'
+                  ? 'bg-cyan-400 text-black border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.6)]'
+                  : 'bg-black/60 text-white border-white/20 hover:border-cyan-400 hover:text-cyan-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]'
               }`}
             >
-              <RotateCcw className={`h-3.5 w-3.5 ${isAssembling ? 'animate-spin' : ''}`} />
+              <RotateCcw className={`h-3.5 w-3.5 ${isAssembling ? 'animate-spin text-black' : ''}`} />
               <span>RE-ASSEMBLE 3D SHOWCASE (45° ARC)</span>
             </button>
 
             <button
               onClick={() => { setMode('float'); setIsAssembling(false); }}
-              className={`inline-flex items-center gap-2 border px-6 py-3 text-xs font-mono-luxury font-extrabold tracking-wider uppercase transition-all ${
+              className={`inline-flex items-center gap-2 border px-6 py-3 text-xs font-mono-luxury font-extrabold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                 mode === 'float'
-                  ? 'bg-white text-black border-white shadow-lg'
-                  : 'bg-black/60 text-white border-white/20 hover:border-white'
+                  ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.5)]'
+                  : 'bg-black/60 text-white border-white/20 hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]'
               }`}
             >
               <Box className="h-3.5 w-3.5" />
@@ -312,40 +325,52 @@ export default function ProjectsPage() {
                     : 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                   transformStyle: 'preserve-3d',
                 }}
-                className="group relative flex flex-col justify-between border border-white/20 bg-black/40 p-6 backdrop-blur-md hover:border-white/60 hover:bg-black/60 transition-all duration-300 shadow-2xl"
+                className="group relative flex flex-col justify-between border border-white/20 bg-black/70 p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:border-cyan-400 hover:bg-black/90 hover:shadow-[0_30px_70px_-15px_rgba(6,182,212,0.55),0_0_35px_rgba(168,85,247,0.35),inset_0_0_20px_rgba(6,182,212,0.2)] hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 overflow-hidden"
               >
+                {/* 3D Floor Shadow Glow Reflection beneath card */}
+                <div className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-cyan-500/0 group-hover:bg-cyan-500/35 rounded-[100%] blur-xl transition-all duration-500" />
+
+                {/* Glowing Corner Accents */}
+                <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300" />
+                <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t-2 border-r-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300" />
+                <div className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b-2 border-l-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300" />
+                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-transparent group-hover:border-cyan-400 transition-colors duration-300" />
+
+                {/* Subtle Ambient Hover Glow Beam */}
+                <div className="pointer-events-none absolute -top-24 -left-24 w-56 h-56 bg-cyan-500/0 group-hover:bg-cyan-500/20 rounded-full blur-2xl transition-all duration-500" />
+
                 <div>
                   {/* Top Bar */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                    <span className="text-[10px] font-mono-luxury font-bold text-white/50 uppercase">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 group-hover:border-cyan-500/30 transition-colors">
+                    <span className="text-[10px] font-mono-luxury font-bold text-white/50 group-hover:text-cyan-400 transition-colors uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                       {project.id}
                     </span>
-                    <span className="text-[10px] font-mono-luxury font-bold text-white bg-white/10 px-2 py-0.5 uppercase border border-white/10">
+                    <span className="text-[10px] font-mono-luxury font-bold text-white bg-white/10 group-hover:bg-cyan-500/20 group-hover:text-cyan-300 group-hover:border-cyan-500/40 px-2.5 py-0.5 uppercase border border-white/10 transition-all shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
                       {project.tag}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-3 mb-2">
-                    <CardIcon className="h-5 w-5 text-white/70" />
-                    <h3 className="text-xl font-editorial font-bold text-white tracking-tight uppercase group-hover:text-neutral-200 transition-colors">
+                    <CardIcon className="h-5 w-5 text-white/70 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_12px_#22d3ee] transition-all" />
+                    <h3 className="text-xl font-editorial font-bold text-white tracking-tight uppercase group-hover:text-cyan-200 transition-colors drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
                       {project.title}
                     </h3>
                   </div>
 
-                  <p className="text-xs font-mono-luxury font-bold text-white/60 uppercase">
+                  <p className="text-xs font-mono-luxury font-bold text-white/60 group-hover:text-white/80 transition-colors uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     {project.subtitle}
                   </p>
 
-                  <p className="text-xs text-white/75 leading-relaxed font-light mt-3">
+                  <p className="text-xs text-white/75 group-hover:text-white/90 leading-relaxed font-light mt-3 transition-colors drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
                     {project.description}
                   </p>
 
                   {/* Tech Stack Pills */}
-                  <div className="mt-4 flex flex-wrap gap-1.5 border-t border-white/5 pt-3">
+                  <div className="mt-4 flex flex-wrap gap-1.5 border-t border-white/5 pt-3 group-hover:border-cyan-500/20 transition-colors">
                     {project.techStack.map((tech) => (
                       <span
                         key={tech}
-                        className="border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-mono-luxury text-white/70"
+                        className="border border-white/10 bg-white/5 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 group-hover:text-cyan-300 group-hover:shadow-[0_0_12px_rgba(6,182,212,0.25)] px-2 py-0.5 text-[10px] font-mono-luxury text-white/70 transition-all shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
                       >
                         {tech}
                       </span>
@@ -356,7 +381,7 @@ export default function ProjectsPage() {
                 {/* Card Action Links */}
                 <div
                   style={{ transform: 'translateZ(25px)' }}
-                  className="mt-6 border-t border-white/10 pt-4 flex items-center justify-between gap-3 relative z-50 pointer-events-auto"
+                  className="mt-6 border-t border-white/10 pt-4 flex items-center justify-between gap-3 relative z-50 pointer-events-auto group-hover:border-cyan-500/30 transition-colors"
                 >
                   {project.github && (
                     <a
@@ -367,7 +392,7 @@ export default function ProjectsPage() {
                         e.stopPropagation();
                         if (project.github) window.open(project.github, '_blank', 'noopener,noreferrer');
                       }}
-                      className="flex-1 inline-flex items-center justify-center gap-2 border border-white/40 bg-black/90 px-3.5 py-2 text-xs font-mono-luxury font-extrabold tracking-wider text-white uppercase hover:bg-white hover:text-black transition-all cursor-pointer pointer-events-auto relative z-50 shadow-lg"
+                      className="flex-1 inline-flex items-center justify-center gap-2 border border-white/40 bg-black/90 px-3.5 py-2 text-xs font-mono-luxury font-extrabold tracking-wider text-white uppercase hover:border-cyan-400 hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] transition-all cursor-pointer pointer-events-auto relative z-50 shadow-[0_8px_20px_rgba(0,0,0,0.8)]"
                     >
                       <GithubIcon className="h-3.5 w-3.5" />
                       <span>REPO →</span>
@@ -383,7 +408,7 @@ export default function ProjectsPage() {
                         e.stopPropagation();
                         if (project.live) window.open(project.live, '_blank', 'noopener,noreferrer');
                       }}
-                      className="flex-1 inline-flex items-center justify-center gap-2 bg-white px-3.5 py-2 text-xs font-mono-luxury font-extrabold tracking-wider text-black uppercase hover:bg-neutral-200 transition-all shadow-lg cursor-pointer pointer-events-auto relative z-50"
+                      className="flex-1 inline-flex items-center justify-center gap-2 bg-cyan-400 px-3.5 py-2 text-xs font-mono-luxury font-extrabold tracking-wider text-black uppercase hover:bg-white hover:shadow-[0_0_30px_rgba(255,255,255,0.8)] transition-all cursor-pointer pointer-events-auto relative z-50 shadow-[0_8px_25px_rgba(6,182,212,0.45)]"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
                       <span>LIVE STORE →</span>
