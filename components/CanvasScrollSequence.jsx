@@ -78,12 +78,16 @@ export default function CanvasScrollSequence({ onScrollProgress }) {
     ctx.imageSmoothingEnabled = false;
     ctx.scale(dpr, dpr);
 
-    // Subtle crop inset for crisp presentation
-    const crop = 0.02;
-    const sx = targetImg.naturalWidth * crop;
-    const sy = targetImg.naturalHeight * crop;
-    const sw = targetImg.naturalWidth * (1 - crop * 2);
-    const sh = targetImg.naturalHeight * (1 - crop * 2);
+    // Crop inset to cleanly remove Gemini watermark from bottom-right corner of frames
+    const cropX = 0.02;
+    const cropY = 0.02;
+    const cropRight = 0.14;  // Complete crop out of right watermark region
+    const cropBottom = 0.14; // Complete crop out of bottom watermark region
+
+    const sx = targetImg.naturalWidth * cropX;
+    const sy = targetImg.naturalHeight * cropY;
+    const sw = targetImg.naturalWidth * (1 - cropX - cropRight);
+    const sh = targetImg.naturalHeight * (1 - cropY - cropBottom);
 
     // Object-fit Cover calculation
     const scale = Math.max(width / sw, height / sh);
