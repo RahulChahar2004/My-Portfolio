@@ -9,7 +9,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import EducationSection from '@/components/EducationSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import FooterSection from '@/components/FooterSection';
-import { Terminal } from 'lucide-react';
+import { Terminal, FileText } from 'lucide-react';
 
 const GithubIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -69,8 +69,8 @@ export default function PortfolioLandingPage() {
           <div className="relative flex h-8 w-8 items-center justify-center border border-white/20 bg-black/30 backdrop-blur-sm group-hover:border-white group-hover:bg-white transition-all duration-300">
             <span className="font-editorial text-xs font-black text-white group-hover:text-black transition-colors tracking-tight">RR</span>
             <span className="absolute -top-1 -right-1 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
             </span>
           </div>
 
@@ -132,6 +132,16 @@ export default function PortfolioLandingPage() {
         {/* Social & Direct Contact CTA */}
         <div className="flex items-center gap-3">
           <a
+            href="/Rahul_Chahar_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border border-cyan-400/80 bg-cyan-500/10 px-3.5 py-2 text-xs font-mono-luxury font-extrabold tracking-wider text-cyan-300 uppercase hover:bg-cyan-400 hover:text-black transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.7)] cursor-pointer"
+            title="Open Rahul Chahar Resume PDF"
+          >
+            <FileText className="h-3.5 w-3.5 text-cyan-400" />
+            <span>RESUME ↓</span>
+          </a>
+          <a
             href="https://github.com/RahulChahar2004"
             target="_blank"
             rel="noopener noreferrer"
@@ -151,7 +161,7 @@ export default function PortfolioLandingPage() {
           </a>
           <button
             onClick={() => scrollToPercentage(0.96)}
-            className="bg-white px-6 py-2.5 text-xs font-mono-luxury font-extrabold tracking-widest text-black uppercase hover:bg-neutral-200 transition-all shadow-md"
+            className="bg-white px-5 py-2.5 text-xs font-mono-luxury font-extrabold tracking-widest text-black uppercase hover:bg-neutral-200 transition-all shadow-md cursor-pointer"
           >
             GET IN TOUCH
           </button>
